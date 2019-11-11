@@ -1,0 +1,93 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "gymPoint API",
+    "version": "1.0",
+    "description": "API Documentation for GymPoint Project",
+    "contact": {
+      "name": "Filipe Augusto Goncalves",
+      "url": "github.com/flpgst",
+      "email": "flpgst@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "base_url"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "parameters": [],
+      "get": {
+        "summary": "list",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "operationId": "1",
+        "description": "ll",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "default": "application/json"
+            },
+            "in": "header",
+            "name": "Content-Type",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTczMTg2NzM3LCJleHAiOjE1NzM3OTE1Mzd9.UU6hiaYtqVAbDGGHBIPscC5eoE3msnmRbWSgtaU-AZo"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ],
+                "type": "object"
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "email": "flpgst@Gmail.com"
+                  }
+                },
+                "example-2": {}
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {}
+  }
+}
