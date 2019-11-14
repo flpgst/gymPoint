@@ -1,12 +1,13 @@
 import Sequelize from 'sequelize'
 
+import Permission from '../app/models/Permission'
 import User from '../app/models/User'
 import Student from '../app/models/Student'
 import Program from '../app/models/Program'
 
 import databaseConfig from '../config/database'
 
-const models = [User, Student, Program]
+const models = [Permission, User, Student, Program]
 
 class Database {
   constructor() {

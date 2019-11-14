@@ -23,6 +23,13 @@ class User extends Model {
     return this
   }
 
+  static associate(models) {
+    this.belongsTo(models.Permission, {
+      foreignKey: 'permission_id',
+      as: 'permission'
+    })
+  }
+
   checkPassword(password) {
     return Bcrypt.compare(password, this.password_hash)
   }
