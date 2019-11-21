@@ -19,12 +19,18 @@ class UserController {
         .required(),
       password: Yup.string()
         .required()
-        .min(6)
+        .min(6),
+      permission_id: Yup.number().required()
     })
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Falha na validação dos dados' })
     }
+
+    if (!req.superAdmin)
+      return res
+        .status(403)
+        .json({ error: 'Somente administradores podem criar usuários' })
 
     const userExists = await User.findOne({ where: { email: req.body.email } })
 

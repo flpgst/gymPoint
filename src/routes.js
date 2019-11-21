@@ -4,12 +4,14 @@ import SessionController from './app/controllers/SessionController'
 import StudentController from './app/controllers/StudentController'
 import ProgramController from './app/controllers/ProgramController'
 import AuthMiddleware from './app/middlewares/auth'
+import PermissionMiddleware from './app/middlewares/permission'
 
 const routes = new Router()
 
 routes.post('/sessions', SessionController.store)
 
 routes.use(AuthMiddleware)
+routes.use(PermissionMiddleware)
 
 routes.get('/users', UserController.index)
 routes.post('/users', UserController.store)
