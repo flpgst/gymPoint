@@ -21,7 +21,8 @@ routes.post('/students', StudentController.store)
 routes.put('/students/:id', StudentController.update)
 
 routes.post('/programs', ProgramController.store)
-// routes.get('/programs', ProgramController.index)
-// routes.put('/programs/:id', ProgramController.update)
+routes.get('/programs', ProgramController.index)
+routes.put('/programs/:id', ProgramController.update)
+routes.delete('/programs/:id', ProgramController.delete)
 
 export default routes

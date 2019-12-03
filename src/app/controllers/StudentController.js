@@ -54,9 +54,7 @@ class StudentController {
     const { id } = req.params
 
     if (!(await schema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ error: 'Falha na validação dos dados no update' })
+      return res.status(400).json({ error: 'Falha na validação dos dados' })
     }
 
     const student = await Student.findOne({ where: { id: req.params.id } })
