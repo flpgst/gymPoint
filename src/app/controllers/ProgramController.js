@@ -2,6 +2,18 @@ import * as Yup from 'yup'
 import Program from '../models/Program'
 
 class ProgramController {
+  async index(req, res) {
+    const programs = await Program.findAll({
+      where: {
+        deleted_at: null
+      },
+      order: ['price'],
+      attributes: ['id', 'title', 'duration', 'price']
+    })
+
+    return res.json(programs)
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       title: Yup.string().required(),
@@ -28,18 +40,6 @@ class ProgramController {
       duration,
       price
     })
-  }
-
-  async index(req, res) {
-    const programs = await Program.findAll({
-      where: {
-        deleted_at: null
-      },
-      order: ['price'],
-      attributes: ['id', 'title', 'duration', 'price']
-    })
-
-    return res.json(programs)
   }
 
   async update(req, res) {
