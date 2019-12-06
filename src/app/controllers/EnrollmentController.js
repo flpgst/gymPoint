@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { addMonths, parseISO } from 'date-fns'
+import { addMonths } from 'date-fns'
 import Enrollment from '../models/Enrollment'
 import Program from '../models/Program'
 
@@ -71,40 +71,70 @@ class EnrollmentController {
     })
   }
 
-  // async update(req, res) {
-  //   const { id } = req.params
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      price: Yup.number(),
+      end_date: Yup.date(),
+      program_id: Yup.number().required(),
+      reset: Yup.boolean()
+    })
 
-  //   const enrollment = await Enrollment.findOne({ where: { id } })
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Falha na validação dos dados' })
+    }
 
-  //   const { program_id, price, end_date } = req.body
+    const { id } = req.params
 
-  //   if (program_id && !price && !end_date) {
-  //     if (program_id === enrollment.program_id)
-  //       return res.status(400).json('O cliente já está matriculado neste plano')
+    const enrollment = await Enrollment.findOne({ where: { id } })
 
-  //     computePrice(program_id)
-  //   }
+    const { program_id, price, end_date, reset } = req.body
 
-  // const { title, duration, price } = await program.update(req.body)
-  // }
+    if (program_id === enrollment.program_id && !price && !end_date && !reset)
+      return res.status(400).json('Nenhuma alteração efetuada no plano')
+
+    enrollment.price = await computePrice(program_id, price)
+
+    enrollment.end_date = await computeEndDate(
+      enrollment.start_date,
+      program_id,
+      end_date
+    )
+
+    enrollment.program_id = program_id
+
+    await enrollment.save()
+
+    return res.json({
+      id: enrollment.id,
+      price: enrollment.price,
+      end_date: enrollment.end_date,
+      program_id: enrollment.program_id
+    })
+  }
 }
 
 async function loadProgram(program_id) {
   const program = await Program.findOne({
     where: { id: program_id, deleted_at: null }
   })
+
   return program
 }
 
-async function computePrice(program_id) {
-  const program = await loadProgram(program_id)
-  const price = parseFloat(program.duration * program.price).toFixed(2)
+async function computePrice(program_id, price) {
+  if (!price) {
+    const program = await loadProgram(program_id)
+    return parseFloat(program.duration * program.price).toFixed(2)
+  }
   return price
 }
 
-async function computeEndDate(start_date, program_id) {
-  const program = await loadProgram(program_id)
-  return addMonths(parseISO(start_date), program.duration)
+async function computeEndDate(start_date, program_id, end_date) {
+  if (!end_date) {
+    const program = await loadProgram(program_id)
+    return addMonths(start_date, program.duration)
+  }
+  return end_date
 }
 
 export default new EnrollmentController()
