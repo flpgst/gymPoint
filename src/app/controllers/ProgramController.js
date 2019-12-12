@@ -81,17 +81,16 @@ class ProgramController {
         .json({ error: 'Somente administradores podem remover planos' })
 
     if (!program) {
-      res.status(401).json('Plano inexistente')
+      res.status(401).json({ error: 'Plano inexistente' })
     }
 
-    const { id, title, duration, price } = await program.destroy()
+    try {
+      await program.destroy()
+    } catch (error) {
+      return res.status(500).json(error.message)
+    }
 
-    return res.json({
-      id,
-      title,
-      duration,
-      price
-    })
+    return res.status(200).json({ error: 'Plano excluído com sucesso' })
   }
 }
 

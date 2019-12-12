@@ -7,13 +7,14 @@ class Enrollment extends Model {
         start_date: Sequelize.DATE,
         end_date: Sequelize.DATE,
         price: Sequelize.DECIMAL,
-        student_id: Sequelize.NUMBER,
-        program_id: Sequelize.NUMBER
+        student_id: Sequelize.INTEGER,
+        program_id: Sequelize.INTEGER
       },
       {
         sequelize
       }
     )
+
     return this
   }
 

@@ -29,5 +29,6 @@ routes.delete('/programs/:id', ProgramController.delete)
 routes.post('/enrollments', EnrollmentController.store)
 routes.get('/enrollments', EnrollmentController.index)
 routes.put('/enrollments/:id', EnrollmentController.update)
+routes.delete('/enrollments/:id', EnrollmentController.delete)
 
 export default routes
