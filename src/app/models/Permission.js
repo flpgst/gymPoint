@@ -11,6 +11,7 @@ class Permission extends Model {
         sequelize
       }
     )
+
     return this
   }
 }
