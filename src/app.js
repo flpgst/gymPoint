@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import express from 'express'
 import Youch from 'youch'
 import routes from './routes'
