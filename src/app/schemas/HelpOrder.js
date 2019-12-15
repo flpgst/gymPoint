@@ -3,16 +3,22 @@ import Mongoose from 'mongoose'
 const HelpOrdersSchema = new Mongoose.Schema(
   {
     student: {
-      type: Number,
+      type: String,
       required: true
     },
-
+    email: {
+      type: String,
+      required: true
+    },
     question: {
       type: String,
       required: true
     },
     answer: {
       type: String
+    },
+    answered_at: {
+      type: Date
     }
   },
   {

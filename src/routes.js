@@ -36,6 +36,8 @@ routes.delete('/enrollments/:id', EnrollmentController.delete)
 
 routes.post('/checkins', CheckinController.store)
 
-routes.post('/helpOrders', HelpOrderController.store)
+routes.post('/help-orders', HelpOrderController.store)
+routes.put('/help-orders/:id', HelpOrderController.update)
+routes.get('/help-orders', HelpOrderController.index)
 
 export default routes
